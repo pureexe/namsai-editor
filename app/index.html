@@ -22,20 +22,9 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <header>
-      <nav class="blue">
-       <div class="nav-wrapper">
-         <a href="#" class="brand-logo">น้ำใส</a>
-         <ul id="nav-mobile" class="right hide-on-med-and-down">
-           <li><a href="sass.html">Sass</a></li>
-           <li><a href="badges.html">Components</a></li>
-           <li><a href="collapsible.html">JavaScript</a></li>
-         </ul>
-       </div>
-     </nav>
-    </header>
+    <header ng-include="'views/header.html'" ></header>
 
-    <div ng-view=""></div>
+    <main ng-view=""></main>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -69,6 +58,7 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/user.js"></script>
         <script src="scripts/controllers/train.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <!-- endbuild -->
 </body>
 </html>
