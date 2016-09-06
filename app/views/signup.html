@@ -1,0 +1,69 @@
+<div ng-include="'views/header.html'" ></div>
+<div class="full-height" layout="row" layout-align="center center">
+  <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
+    <div class="card-content">
+      <form name="projectForm">
+        <md-input-container class="md-block">
+          <label>Username</label>
+          <input required type="text" name="clientUsername" ng-model="project.clientUsername" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"/>
+          <div ng-messages="projectForm.clientUsername.$error" role="alert" md-auto-hide="false">
+            <div ng-message-exp="['required']">
+              Username is required!
+            </div>
+            <div ng-message-exp="['pattern']">
+              Username must english and number only!
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Email</label>
+          <input required type="email" name="clientEmail" ng-model="project.clientEmail"
+                 minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+          <div ng-messages="projectForm.clientEmail.$error" role="alert" md-auto-hide="false">
+            <div ng-message-exp="['minlength', 'maxlength']">
+              Your email must be between 10 and 128 characters
+            </div>
+            <div ng-message-exp="['pattern']">
+              Email is invalid!
+            </div>
+            <div ng-message-exp="['required']">
+              Email is required!
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input required type="password" name="clientPassword" ng-model="project.clientPassword"
+                 minlength="8" maxlength="64" />
+          <div ng-messages="projectForm.clientPassword.$error" role="alert" md-auto-hide="false">
+            <div ng-message-exp="['minlength']">
+              Your password is too short!
+            </div>
+            <div ng-message-exp="['maxlength']">
+              Your password is too long!
+            </div>
+            <div ng-message-exp="['required']">
+              Password is required!
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Retype Password</label>
+          <input required type="password" name="clientRePassword" ng-model="project.clientRePassword"
+                 ng-pattern="\b{{project.clientPassword}}\b"  />
+          <div ng-messages="projectForm.clientRePassword.$error" role="alert" md-auto-hide="false">
+            <div ng-message-exp="['pattern']">
+              Password miss match!
+            </div>
+            <div ng-message-exp="['required']">
+              Password need confirmation!
+            </div>
+          </div>
+        </md-input-container>
+      </form>
+        <div style="width:100%;" layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary">Sign up</md-button>
+        </div>
+    </div>
+  </md-whiteframe>
+</div>

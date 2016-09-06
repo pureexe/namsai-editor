@@ -2,11 +2,13 @@
 // endbower
 $screen-md: 960px;
 .full-height {
-  height: calc(100vh - 64px);
+  padding-top:20px;
+  padding-bottom:20px;
+  min-height: calc(100vh - 64px);
 }
 @media screen and (max-width: $screen-md) {
   .full-height {
-    height: calc(100vh - 48px);
+    min-height: calc(100vh - 48px);
   }
 }
 .card{

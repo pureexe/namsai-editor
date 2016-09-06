@@ -4,8 +4,8 @@
     <div class="card-content">
       <md-input-container class="md-block">
           <label>Username</label>
-          <input required type="text" name="clientEmail" ng-model="project.clientEmail" />
-          <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <input required type="text" name="clientUsername" ng-model="project.clientUsername" />
+          <div ng-messages="projectForm.clientUsername.$error" role="alert">
             <div ng-message-exp="['required']">
               Username is required!
             </div>
@@ -21,7 +21,7 @@
             </div>
           </md-input-container>
           <div style="width:100%;" layout="row" layout-align="end center">
-            <md-button>Sign up</md-button>
+            <md-button ng-click="gotoPath('/signup')">Sign up</md-button>
             <md-button class="md-raised md-primary">Login</md-button>
           </div>
     </div>
