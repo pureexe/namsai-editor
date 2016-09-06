@@ -1,11 +1,18 @@
 <div ng-controller="HeaderCtrl">
-  <nav class="blue">
-   <div class="nav-wrapper">
-     <a href="#" class="brand-logo">น้ำใส</a>
-     <ul id="nav-mobile" class="right hide-on-med-and-down">
-       <li><a href="#/docs">เอกสาร</a></li>
-       <li><a href="badges.html">เข้าระบบ</a></li>
-     </ul>
-   </div>
- </nav>
+  <md-whiteframe class="md-whiteframe-2dp" layout layout-align="center center">
+    <md-toolbar class="">
+        <div class="md-toolbar-tools">
+          <h2>
+            <span>Namsai</span>
+          </h2>
+          <span flex></span>
+          <md-button class="md-button" aria-label="เอกสาร">
+            <span>Docs</span>
+          </md-button>
+          <md-button class="md-button" aria-label="Login" ng-click="gotoPath('/login');">
+            <span>login</span>
+          </md-button>
+        </div>
+      </md-toolbar>
+  </md-whiteframe>
 </div>

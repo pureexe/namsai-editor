@@ -1,2 +1,18 @@
 // bower:scss
 // endbower
+$screen-md: 960px;
+.full-height {
+  height: calc(100vh - 64px);
+}
+@media screen and (max-width: $screen-md) {
+  .full-height {
+    height: calc(100vh - 48px);
+  }
+}
+.card{
+  background-color: white;
+}
+.card-content{
+  padding:20px;
+  width: 100%;
+}

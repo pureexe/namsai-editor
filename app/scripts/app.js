@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngMaterial',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -39,7 +40,20 @@ angular
         controller: 'TrainCtrl',
         controllerAs: 'train'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
       .otherwise({
         redirectTo: '/'
       });
+  }).config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue')
+      .accentPalette('light-blue');
+  }).run(function($rootScope,$location){
+    $rootScope.gotoPath = function(pathLocation){
+      $location.path(pathLocation);
+    }
   });

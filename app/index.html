@@ -8,8 +8,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/materialize/bin/materialize.css" />
     <link rel="stylesheet" href="bower_components/material-design-icons-font/iconfont/material-icons.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -22,9 +22,8 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <header ng-include="'views/header.html'" ></header>
 
-    <main ng-view=""></main>
+    <div ng-view=""></div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -40,7 +39,6 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -48,7 +46,9 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/materialize/bin/materialize.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -59,6 +59,7 @@
         <script src="scripts/controllers/user.js"></script>
         <script src="scripts/controllers/train.js"></script>
         <script src="scripts/controllers/header.js"></script>
+        <script src="scripts/controllers/login.js"></script>
         <!-- endbuild -->
 </body>
 </html>

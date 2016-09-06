@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name namsaiEditorApp.controller:MainCtrl
+ * @name namsaiEditorApp.controller:LoginCtrl
  * @description
- * # MainCtrl
+ * # LoginCtrl
  * Controller of the namsaiEditorApp
  */
 angular.module('namsaiEditorApp')
-  .controller('MainCtrl', function ($rootScope,$location) {
+  .controller('LoginCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

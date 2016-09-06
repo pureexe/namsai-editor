@@ -1,0 +1,29 @@
+<div ng-include="'views/header.html'" ></div>
+<div class="full-height" layout="row" layout-align="center center">
+  <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
+    <div class="card-content">
+      <md-input-container class="md-block">
+          <label>Username</label>
+          <input required type="text" name="clientEmail" ng-model="project.clientEmail" />
+          <div ng-messages="projectForm.clientEmail.$error" role="alert">
+            <div ng-message-exp="['required']">
+              Username is required!
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Password</label>
+            <input required type="password" name="clientPassword" ng-model="project.clientPassword" />
+            <div ng-messages="projectForm.clientPassword.$error" role="alert">
+              <div ng-message-exp="['required']">
+                password is required!
+              </div>
+            </div>
+          </md-input-container>
+          <div style="width:100%;" layout="row" layout-align="end center">
+            <md-button>Sign up</md-button>
+            <md-button class="md-raised md-primary">Login</md-button>
+          </div>
+    </div>
+  </md-whiteframe>
+</div>
