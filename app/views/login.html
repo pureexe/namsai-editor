@@ -5,20 +5,10 @@
       <md-input-container class="md-block">
           <label>Username</label>
           <input required type="text" name="clientUsername" ng-model="project.clientUsername" />
-          <div ng-messages="projectForm.clientUsername.$error" role="alert">
-            <div ng-message-exp="['required']">
-              Username is required!
-            </div>
-          </div>
         </md-input-container>
         <md-input-container class="md-block">
             <label>Password</label>
             <input required type="password" name="clientPassword" ng-model="project.clientPassword" />
-            <div ng-messages="projectForm.clientPassword.$error" role="alert">
-              <div ng-message-exp="['required']">
-                password is required!
-              </div>
-            </div>
           </md-input-container>
           <div style="width:100%;" layout="row" layout-align="end center">
             <md-button ng-click="gotoPath('/signup')">Sign up</md-button>
