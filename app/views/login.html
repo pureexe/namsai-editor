@@ -2,18 +2,26 @@
 <div class="full-height" layout="row" layout-align="center center">
   <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
     <div class="card-content">
+      <form ng-submit="doLogin()" name="loginForm">
       <md-input-container class="md-block">
           <label>Username</label>
-          <input required type="text" name="clientUsername" ng-model="project.clientUsername" />
+          <input required type="text" name="clientUsername" ng-model="clientUsername" />
         </md-input-container>
         <md-input-container class="md-block">
             <label>Password</label>
-            <input required type="password" name="clientPassword" ng-model="project.clientPassword" />
+            <input required type="password" name="clientPassword" ng-model="clientPassword" />
+            <div ng-messages="loginForm.clientPassword.$error" role="alert" md-auto-hide="false">
+              <div ng-message-exp="['wrongPassword']">
+                Your username or password isn't correct
+              </div>
+            </div>
           </md-input-container>
           <div style="width:100%;" layout="row" layout-align="end center">
             <md-button ng-click="gotoPath('/signup')">Sign up</md-button>
             <md-button class="md-raised md-primary">Login</md-button>
           </div>
+          <input type="submit" style="display:none;" />
+        </form>
     </div>
   </md-whiteframe>
 </div>

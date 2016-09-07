@@ -18,6 +18,7 @@ angular
     'ngTouch',
     'ngMaterial',
     'ngMessages',
+    'LocalStorageModule',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -58,6 +59,10 @@ angular
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')
       .accentPalette('light-blue');
+  }).config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('namsaiEditorApp')
+      .setNotify(true, true)
   }).run(function($rootScope,$location){
     $rootScope.gotoPath = function(pathLocation){
       $location.path(pathLocation);

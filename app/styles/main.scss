@@ -26,3 +26,6 @@ $screen-md: 960px;
     height: calc(100vh - 96px);
   }
 }
+md-input-container .md-errors-spacer{
+ min-height: 0px !important;
+}

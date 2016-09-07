@@ -1,9 +1,22 @@
 <div ng-include="'views/header.html'" ></div>
 <div ng-include="'views/appbar.html'" ></div>
 <div class="app-container" layout="row">
-  <div flex="25" layout="column">
-    <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:100%;background-color:#fff;padding:20px;">
-      Hello
+  <div flex="25" layout="column" style="position:relative;">
+    <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:100%;background-color:#fff;position:relative">
+      <md-whiteframe class="md-whiteframe-1dp" layout layout-align="center center">
+        <md-toolbar class="" style="background-color:#fff;color:#616161;">
+            <div class="md-toolbar-tools">
+              <md-input-container md-no-float class="md-block" style="width:100%;">
+                <input ng-model="search" type="text" placeholder="Search">
+              </md-input-container>
+            </div>
+          </md-toolbar>
+      </md-whiteframe>
+      <div style="position:absolute;right:0px;bottom:5px;">
+        <md-button class="md-fab md-primary" aria-label="Add">
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+      </div>
     </md-whiteframe>
   </div>
   <div flex="50" layout="column">
@@ -11,23 +24,13 @@
       <md-whiteframe class="md-whiteframe-1dp" layout layout-align="center center">
         <md-toolbar class="" style="background-color:#fff;color:#616161;">
             <div class="md-toolbar-tools">
-              <md-button class="md-icon-button" aria-label="Login" ng-click="">
-                <i class="material-icons">arrow_back</i>
-              </md-button>
-              <span flex style="text-align: center">
-                AppName
+              <md-input-container md-no-float class="md-block">
+                <input ng-model="user.phone" type="text" placeholder="Topic">
+              </md-input-container>
+              <span flex>
               </span>
               <md-button class="md-icon-button" aria-label="Login" ng-click="">
-                <i class="material-icons">message</i>
-              </md-button>
-              <md-button class="md-icon-button" aria-label="Login" ng-click="">
-                <i class="material-icons">dashboard</i>
-              </md-button>
-              <md-button class="md-icon-button" aria-label="Login" ng-click="">
-                <i class="material-icons">history</i>
-              </md-button>
-              <md-button class="md-icon-button" aria-label="Login" ng-click="">
-                <i class="material-icons">settings</i>
+                <i class="material-icons">delete</i>
               </md-button>
             </div>
           </md-toolbar>
