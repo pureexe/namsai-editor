@@ -1,12 +1,42 @@
-<nav class="white">
-    <div class="nav-wrapper">
-      <ul id="nav-mobile" class="left">
-        <li><a class="grey-text" href="badges.html"><i class="material-icons">arrow_back</i></a></li>
-      </ul>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a class="grey-text" href="sass.html">Sass</a></li>
-        <li><a class="grey-text" href="badges.html">Components</a></li>
-        <li><a class="grey-text" href="collapsible.html">JavaScript</a></li>
-      </ul>
-    </div>
-  </nav>
+<div ng-include="'views/header.html'" ></div>
+<div ng-include="'views/appbar.html'" ></div>
+<div class="app-container" layout="row">
+  <div flex="25" layout="column">
+    <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:100%;background-color:#fff;padding:20px;">
+      Hello
+    </md-whiteframe>
+  </div>
+  <div flex="50" layout="column">
+    <md-whiteframe class="md-whiteframe-1dp" style="margin-top:10px;margin-bottom:10px;height:100%;background-color:#fff;">
+      <md-whiteframe class="md-whiteframe-1dp" layout layout-align="center center">
+        <md-toolbar class="" style="background-color:#fff;color:#616161;">
+            <div class="md-toolbar-tools">
+              <md-button class="md-icon-button" aria-label="Login" ng-click="">
+                <i class="material-icons">arrow_back</i>
+              </md-button>
+              <span flex style="text-align: center">
+                AppName
+              </span>
+              <md-button class="md-icon-button" aria-label="Login" ng-click="">
+                <i class="material-icons">message</i>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Login" ng-click="">
+                <i class="material-icons">dashboard</i>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Login" ng-click="">
+                <i class="material-icons">history</i>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Login" ng-click="">
+                <i class="material-icons">settings</i>
+              </md-button>
+            </div>
+          </md-toolbar>
+      </md-whiteframe>
+    </md-whiteframe>
+  </div>
+  <div flex="25" layout="column">
+    <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:100%;background-color:#fff;padding:20px;">
+      Not Avaliable Untill Next patch
+    </md-whiteframe>
+  </div>
+</div>

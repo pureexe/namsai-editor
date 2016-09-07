@@ -18,3 +18,11 @@ $screen-md: 960px;
   padding:20px;
   width: 100%;
 }
+.app-container{
+  height: calc(100vh - 128px);
+}
+@media screen and (max-width:$screen-md){
+  .app-container{
+    height: calc(100vh - 96px);
+  }
+}
