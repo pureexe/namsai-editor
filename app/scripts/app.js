@@ -32,11 +32,6 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/user', {
-        templateUrl: 'views/user.html',
-        controller: 'UserCtrl',
-        controllerAs: 'user'
-      })
       .when('/train', {
         templateUrl: 'views/train.html',
         controller: 'TrainCtrl',
@@ -51,9 +46,15 @@ angular
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl',
         controllerAs: 'signup'
+      }).when('/:user', {
+        templateUrl: 'views/user.html',
+        controller: 'UserCtrl',
+        controllerAs: 'user'
       })
       .otherwise({
-        redirectTo: '/'
+        templateUrl: 'views/status404.html',
+        controller: 'Status404Ctrl',
+        controllerAs: 'status404'
       });
   }).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
