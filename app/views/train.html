@@ -39,6 +39,14 @@
                 </div>
               </md-toolbar>
           </md-whiteframe>
+          <md-list>
+            <div ng-repeat="story in stories">
+              <md-list-item  ng-click="chooseStory(story.id);">
+                <p>{{story.name}}</p>
+              </md-list-item>
+              <md-divider></md-divider>
+            </div>
+          </md-list>
         </div>
         <div ng-if="!stories" style="width:100%;height:100%;" layout layout-align="center center">
           <div>Add new topic by tap (+) button</div>
@@ -57,7 +65,7 @@
             <md-toolbar class="" style="background-color:#fff;color:#616161;">
                 <div class="md-toolbar-tools">
                   <md-input-container md-no-float class="md-block">
-                    <input ng-model="user.phone" type="text" placeholder="Topic">
+                    <input ng-model="topic.name" ng-change="topicNameChange()" type="text" placeholder="Topic">
                   </md-input-container>
                   <span flex>
                   </span>
