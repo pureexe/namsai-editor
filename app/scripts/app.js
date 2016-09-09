@@ -32,11 +32,6 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/train', {
-        templateUrl: 'views/train.html',
-        controller: 'TrainCtrl',
-        controllerAs: 'train'
-      })
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
@@ -50,6 +45,10 @@ angular
         templateUrl: 'views/user.html',
         controller: 'UserCtrl',
         controllerAs: 'user'
+      }).when('/:user/:repo', {
+        templateUrl: 'views/train.html',
+        controller: 'TrainCtrl',
+        controllerAs: 'train'
       })
       .otherwise({
         templateUrl: 'views/status404.html',

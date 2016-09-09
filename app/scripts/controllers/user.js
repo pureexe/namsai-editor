@@ -39,7 +39,7 @@ angular.module('namsaiEditorApp')
         method: "GET",
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response) {
-        $scope.repos = response.data;
+        $scope.repos = response.data.repos;
       },function(response) {
         if(response.status == 404){
           $scope.notFoundUser = true;
