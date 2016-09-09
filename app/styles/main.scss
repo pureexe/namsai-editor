@@ -34,3 +34,12 @@ a{
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
+.full-without-header{
+  height: calc(100% - 64px);
+  overflow: auto;
+}
+@media screen and (max-width: $screen-md) {
+  .full-without-header{
+    height: calc(100% - 48px);
+  }
+}
