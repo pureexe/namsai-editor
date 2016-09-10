@@ -95,6 +95,7 @@
                 </div>
               </md-toolbar>
           </md-whiteframe>
+          <div ng-init="nodeRoute = [];juncCount = 0" ng-include="'views/nodelist.html'" ></div>          
         </div>
         <div ng-if="!topic" style="width:100%;height:100%;" layout layout-align="center center">
           <div>Choose topic from left panel</div>

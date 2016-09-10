@@ -15,6 +15,7 @@ angular.module('namsaiEditorApp')
       'Karma'
     ];
     $scope.appname = $routeParams.repo;
+    $scope.juncCount = 0;
     var currentTopicPosition;
     /*
     getStoryList
@@ -58,6 +59,7 @@ angular.module('namsaiEditorApp')
           if(currentTopicPosition !== 'undefined' && currentTopicPosition != -1){
             $scope.stories[currentTopicPosition].name = $scope.topic.name;
           }
+          $scope.nodeList = response.data.graph;
           console.log($scope.topic.graph);
         }
       },function(response) {
@@ -179,5 +181,9 @@ angular.module('namsaiEditorApp')
     }
     $scope.topicAdd = function(){
       addStory();
+    }
+    $scope.testCallback = function(a,b){
+      console.log(a);
+      console.log($scope.juncCount);
     }
   });
