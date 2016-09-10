@@ -9,9 +9,37 @@
           <md-button class="md-button" aria-label="เอกสาร">
             <span>Docs</span>
           </md-button>
-          <md-button class="md-button" aria-label="Login" ng-click="gotoPath('/login');">
+          <md-button ng-if="!login" class="md-button" aria-label="Login" ng-click="gotoPath('/login');">
             <span>login</span>
           </md-button>
+
+          <md-menu ng-if="login" md-position-mode="target-right target" >
+            <md-button  class="md-icon-button" aria-label="User" ng-click="$mdOpenMenu($event)">
+              <i class="material-icons">account_circle</i>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>
+                <md-button ng-click="gotoPath('/'+username)">
+                  {{username}}
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="gotoPath('/'+username+'/settings')">
+                  Settings
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="gotoPath('/apps/new')">
+                  New apps
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="gotoPath('/logut')">
+                  Logout
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+        </md-menu>
         </div>
       </md-toolbar>
   </md-whiteframe>

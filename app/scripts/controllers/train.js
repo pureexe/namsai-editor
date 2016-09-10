@@ -58,6 +58,7 @@ angular.module('namsaiEditorApp')
           if(currentTopicPosition !== 'undefined' && currentTopicPosition != -1){
             $scope.stories[currentTopicPosition].name = $scope.topic.name;
           }
+          console.log($scope.topic.graph);
         }
       },function(response) {
         console.error(response);

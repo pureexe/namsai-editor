@@ -72,6 +72,23 @@
                   </md-input-container>
                   <span flex>
                   </span>
+                  <md-menu md-position-mode="target-right target" >
+                    <md-button  class="md-icon-button" aria-label="Create node" ng-click="$mdOpenMenu($event)">
+                      <i class="material-icons">create</i>
+                    </md-button>
+                    <md-menu-content>
+                      <md-menu-item>
+                        <md-button ng-click="">
+                          Pattern
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="">
+                          Response
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
                   <md-button class="md-icon-button" aria-label="Login" ng-click="topicDelete(topic.id)">
                     <i class="material-icons">delete</i>
                   </md-button>
