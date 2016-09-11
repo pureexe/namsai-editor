@@ -1,24 +1,19 @@
-<!--<div ng-repeat="node in nodeList">
-    <div ng-if="node.type=='pattern'">{{node.value}}</div>
-    <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
-    <div ng-init="nodeList = node.next" ng-include="'views/nodelist.html'"></div>
-</div>
--->
-<div ng-if='nodeList.length == 1' ng-init='node = nodeList[0]'>
-  <div ng-if="node.type=='pattern'">{{node.value}}</div>
-  <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
-  <div ng-init="nodeList = node.next" ng-include="'views/nodelist.html'"></div>
-</div>
-<div ng-if='nodeList.length > 1' ng-init='mustDisplay = 0;maxDisplay = nodeList.length;'>
-  <md-button  class="md-icon-button" aria-label="" ng-click='mustDisplay = (mustDisplay + 1)%maxDisplay' ng-init="juncCount=1">
-    <i class="material-icons">chevron_left</i>
-  </md-button>
-  <div ng-repeat="node in nodeList" ng-if="$index == mustDisplay">
-    <div ng-if="node.type=='pattern'" >{{node.value}}</div>
-    <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
-    <div ng-init="nodeList = node.next" ng-include="'views/nodelist.html'"></div>
+
+<div ng-init='mustDisplay = 0;' >
+  <div layout="row" ng-attr-layout-align="{{ (nodeList[0].type!='pattern')?'end center':'start center'}}">
+    <md-button  class="md-icon-button" aria-label="" ng-click="mustDisplay = (mustDisplay-1<0)?nodeList.length-1:mustDisplay-1" ng-show="nodeList.length > 1" >
+      <i class="material-icons">chevron_left</i>
+    </md-button>
+    <div ng-repeat="node in nodeList" ng-if="$index == mustDisplay">
+      <div ng-init="setLastNode(node,parentNode)"></div>
+      <div ng-if="node.type=='pattern'" >{{node.value}}</div>
+      <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
+    </div>
+    <md-button  class="md-icon-button" aria-label="" ng-click="mustDisplay = (mustDisplay + 1)%nodeList.length;" ng-show="nodeList.length > 1">
+      <i class="material-icons">chevron_right</i>
+    </md-button>
   </div>
-  <md-button  class="md-icon-button" aria-label="" ng-click='mustDisplay = (mustDisplay-1<0)?maxDisplay-1:mustDisplay-1'>
-    <i class="material-icons">chevron_right</i>
-  </md-button>
+  <div ng-repeat="node in nodeList" ng-if="$index == mustDisplay">
+    <div ng-init="parentNode = node;nodeList = node.next;" ng-include="'views/nodelist.html'"></div>
+  </div>
 </div>

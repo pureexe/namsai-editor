@@ -1,0 +1,6 @@
+<div ng-repeat="node in nodeList">
+    <div ng-if="node.type=='pattern'">{{node.value}}</div>
+    <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
+    <div ng-init="setLastNode(node,parentNode)"></div>
+    <div ng-init="parentNode = node;nodeList = node.next" ng-include="'views/nodelist2.html'"></div>
+</div>
