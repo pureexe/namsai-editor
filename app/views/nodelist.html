@@ -6,8 +6,14 @@
     </md-button>
     <div ng-repeat="node in nodeList" ng-if="$index == mustDisplay">
       <div ng-init="setLastNode(node,parentNode)"></div>
-      <div ng-if="node.type=='pattern'" >{{node.value}}</div>
-      <div ng-if="node.type=='response'" style="text-align:right;">{{node.value}}</div>
+      <div layout="row" layout-align="center center">
+      <md-input-container md-no-float class="md-block" aria-label="z">
+       <input ng-model="node.value" type="text" placeholder="" ng-change="topicUpdateNode(node.id,node.value)" aria-label="node value">
+      </md-input-container>
+      <md-button  class="md-icon-button" aria-label="" ng-click="" >
+        <i class="material-icons">close</i>
+      </md-button>
+      </div>
     </div>
     <md-button  class="md-icon-button" aria-label="" ng-click="mustDisplay = (mustDisplay + 1)%nodeList.length;" ng-show="nodeList.length > 1">
       <i class="material-icons">chevron_right</i>

@@ -9,13 +9,8 @@
  */
 angular.module('namsaiEditorApp')
   .controller('TrainCtrl', function ($scope,$routeParams,localStorageService,API,$http,$mdDialog) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
     $scope.appname = $routeParams.repo;
-    var lastNode,lastParent;
+    var lastNode,lastParent,lastGrandPa;
     var currentTopicPosition;
     var currentStoryId;
     /*
@@ -61,6 +56,9 @@ angular.module('namsaiEditorApp')
             $scope.stories[currentTopicPosition].name = $scope.topic.name;
           }
           var addEmptyNext = function(group){
+            if(!group){
+              return;
+            }
             group.forEach(function(value,index, array){
               if(!value.next){
                 array[index].next = [];
@@ -70,7 +68,6 @@ angular.module('namsaiEditorApp')
             });
           }
           addEmptyNext(response.data.graph);
-          console.log(response.data.graph);
           $scope.nodeList = response.data.graph;
         }
       },function(response) {
@@ -163,6 +160,7 @@ angular.module('namsaiEditorApp')
     addNode
     */
     var addNode = function(type,value){
+      value = (value)?value:"";
       var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes';
       var token = localStorageService.get("access_token");
       $http({
@@ -172,24 +170,15 @@ angular.module('namsaiEditorApp')
         data: "access_token="+token+"&type="+type+"&value="+value+"&story_id="+currentStoryId
       }).then(function(response) {
         if(response.data.id){
-          if(lastNode.type == type){
-            lastParent.next.push({
-              "id":response.data.id,
-              "type":type,
-              "value":value
-            });
-            addEdge((lastParent)?lastParent.id:0,response.data.id);
+          console.log(lastNode);
+          if(lastParent.type == type){
+            lastGrandPa.next[lastGrandPa.next.length-1].id = response.data.id;
+            addEdge((lastGrandPa)?lastGrandPa.id:0,response.data.id);
           }else{
-            if(!node.next){
-              node.next = []
-            }
-            node.next.push({
-              "id":response.data.id,
-              "type":type,
-              "value":value
-            });
-            addEdge(lastNode.id,response.data.id);
+            lastParent.next[lastParent.next.length-1].id = response.data.id;
+            addEdge(lastParent.id,response.data.id);
           }
+          console.log("ACCESS HERE");
         }
       },function(response) {
         console.error(response);
@@ -213,7 +202,25 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
+    /*
+    updateNode
+    */
+    var updateNode = function(nodeId,value){
+      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes/'+nodeId;
+      var token = localStorageService.get("access_token");
+      $http({
+        url: url,
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: "access_token="+token+"&value="+value
+      }).then(function(response) {
+        if(response.data.id){
 
+        }
+      },function(response) {
+        console.error(response);
+      });
+    }
     var initial = function(){
       getRepo();
       getStoryList();
@@ -251,37 +258,52 @@ angular.module('namsaiEditorApp')
       addStory();
     }
     $scope.setLastNode = function(currentNode,parentNode){
+      lastGrandPa = lastParent;
       lastNode = currentNode;
-      lastParent = parentNode
-      //console.log("LASTNODE");
-      //console.log(lastNode);
-      //console.log("LASTPARENT");
-      //console.log(lastParent);
-      //console.log("LastNode: "+lastNode.id+" | lastParent"+(parentNode && parentNode.id)?parentNode.id:undefined);
+      lastParent = parentNode;
+
     }
     $scope.addNodePattern = function(){
-      //addNode("pattern","test");
-      lastNode.next.push({
-        "id":999,
-        "type":"pattern",
-        "value":"sample test",
-        "next":[]
-      });
-      console.log($scope.nodeList);
+
+      if(lastNode.type == 'pattern'){
+        lastParent.next.push({
+            "id":0,
+            "type":"pattern",
+            "value":"",
+            "next":[]
+        });
+      }else{
+        lastNode.next.push({
+            "id":0,
+            "type":"pattern",
+            "value":"",
+            "next":[]
+        });
+      }
+      addNode('pattern');
     }
     $scope.addNodeResponse = function(){
-      //addNode("response","test");
-      lastParent.next.push({
-        "id":999,
-        "type":"response",
-        "value":"sample response",
-        "next":[]
-      });
-      console.log($scope.nodeList);
-    }
-    $scope.add = function(data){
-    }
-    $scope.cs = function(a){
-      console.log(a);
-    }
-  });
+      if(lastNode.type == 'response'){
+        lastParent.next.push({
+            "id":0,
+            "type":"response",
+            "value":"",
+            "next":[]
+        });
+      }else{
+        lastNode.next.push({
+            "id":0,
+            "type":"response",
+            "value":"",
+            "next":[]
+        });
+      }
+      addNode('response');
+  }
+  $scope.cs = function(a){
+    console.log(a);
+  }
+  $scope.topicUpdateNode = function(nodeId,value){
+    updateNode(nodeId,value);
+  }
+});
