@@ -15,6 +15,7 @@ angular.module('namsaiEditorApp')
       'Karma'
     ];
     $scope.doLogin = function(){
+      console.log("DO LOGIN");
       $http({
         url: API+'/v1/auth',
         method: "POST",
@@ -26,9 +27,7 @@ angular.module('namsaiEditorApp')
         $scope.loginForm.clientPassword.$error.wrongPassword = undefined;
         $location.path('/'+$scope.clientUsername);
       },function(response) {
-        console.log("wrongpass");
         $scope.loginForm.clientPassword.$error.wrongPassword = true;
       });
-
     }
   });

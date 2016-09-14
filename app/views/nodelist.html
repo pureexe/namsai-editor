@@ -1,6 +1,5 @@
 
 <div ng-init='mustDisplay = [0];' >
-  {{mustDisplay[0]}}
   <div layout="row" ng-attr-layout-align="{{ (nodeList[0].type!='pattern')?'end center':'start center'}}">
     <md-button  class="md-icon-button" aria-label="" ng-click="mustDisplay[0] = (mustDisplay[0]-1<0)?nodeList.length-1:mustDisplay[0]-1" ng-show="nodeList.length > 1" >
       <i class="material-icons">chevron_left</i>

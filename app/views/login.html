@@ -18,9 +18,8 @@
           </md-input-container>
           <div style="width:100%;" layout="row" layout-align="end center">
             <md-button ng-click="gotoPath('/signup')">Sign up</md-button>
-            <md-button class="md-raised md-primary">Login</md-button>
+            <md-button class="md-raised md-primary" ng-click="submitLogin()" type="submit">Login</md-button>
           </div>
-          <input type="submit" style="display:none;" />
         </form>
     </div>
   </md-whiteframe>

@@ -20,7 +20,7 @@ angular.module('namsaiEditorApp')
       $scope.login = undefined;
     }
     $rootScope.doLogout = function(){
-      doLogout();
+      logout();
     }
     if(localStorageService.get('access_token')){
       $scope.login = true;
