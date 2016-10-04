@@ -67,4 +67,7 @@ angular
     $rootScope.gotoPath = function(pathLocation){
       $location.path(pathLocation);
     }
+    $rootScope.gotoBack = function(){
+      window.history.back();
+    }
   });
