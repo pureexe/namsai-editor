@@ -8,8 +8,10 @@
  * Controller of the namsaiEditorApp
  */
 angular.module('namsaiEditorApp')
-  .controller('TrainCtrl', function ($scope,$routeParams,localStorageService,API,$http,$mdDialog) {
-    $scope.appname = $routeParams.repo;
+  .controller('TrainCtrl', function ($scope,$routeParams,localStorageService,API,$http,$mdDialog,$rootScope) {
+    $scope.appName = $routeParams.repo;
+    $scope.appPath = $routeParams.user+'/'+$routeParams.repo;
+    $rootScope.title = $scope.appPath;
     var lastNode,lastParent,lastGrandPa,lastMustDisplay;
     var currentTopicPosition;
     var currentStoryId;

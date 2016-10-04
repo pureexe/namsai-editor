@@ -8,12 +8,7 @@
  * Controller of the namsaiEditorApp
  */
 angular.module('namsaiEditorApp')
-  .controller('UserCtrl', function (API,$http,$routeParams,$scope,localStorageService) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('UserCtrl', function (API,$http,$routeParams,$scope,localStorageService,$rootScope) {
     var initial = function(){
       var username = $routeParams.user;
       $http({
@@ -24,6 +19,7 @@ angular.module('namsaiEditorApp')
         $scope.user.name = response.data.name;
         $scope.user.bio = response.data.bio;
         $scope.user.username = response.data.username;
+        $rootScope.title = $scope.user.name;
       },function(response) {
         if(response.status == 404){
           $scope.notFoundUser = true;
