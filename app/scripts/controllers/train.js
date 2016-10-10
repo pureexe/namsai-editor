@@ -81,6 +81,12 @@ angular.module('namsaiEditorApp')
     deleteStory
     */
     var deleteStory = function(storyId){
+      //Remove story from UI
+      $scope.stories.splice(currentTopicPosition,1);
+      $scope.topic = undefined;
+      currentStoryId = -1;
+      currentTopicPosition = -1;
+      //Remove story from Backend
       var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories/'+storyId;
       var token = localStorageService.get("access_token");
       $http({
@@ -89,14 +95,9 @@ angular.module('namsaiEditorApp')
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: "access_token="+token
       }).then(function(response) {
-        if(response.data.id){
-          $scope.stories.splice(currentTopicPosition,1);
-          $scope.topic = undefined;
-          currentStoryId = -1;
-          currentTopicPosition = -1;
-        }
+
       },function(response) {
-        console.error(response);
+        console.error(response.data);
       });
     }
     /*
@@ -359,7 +360,36 @@ angular.module('namsaiEditorApp')
     updateNode(nodeId,value);
   }
   $scope.topicDeleteNode = function(id,parentNode){
-    console.log(id);
-    console.log(parentNode);
+    deleteNode(id,parentNode);
+  }
+  var deleteNode = function(nodeId,parentNode){
+    //remove from ui
+    if(parentNode){
+      for(var i=0;i<parentNode.next.length;i++){
+        if(parentNode.next[i].id == nodeId){
+          parentNode.next.splice(i, 1);
+          break;
+        }
+      }
+    }else{
+      for(var i=0;i<$scope.nodeList.length;i++){
+        if($scope.nodeList[i].id == nodeId){
+          $scope.nodeList.splice(i,1);
+          break;
+        }
+      }
+    }
+    // remove from backend
+    var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes/'+nodeId;
+    var token = localStorageService.get("access_token");
+    $http({
+      url: url,
+      method: "DELETE",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "access_token="+token
+    }).then(function(response) {
+    },function(response) {
+      console.error(response.data);
+    });
   }
 });
