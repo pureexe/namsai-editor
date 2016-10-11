@@ -41,14 +41,26 @@ angular
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl',
         controllerAs: 'signup'
-      }).when('/:user', {
+      })
+      .when('/:user', {
         templateUrl: 'views/user.html',
         controller: 'UserCtrl',
         controllerAs: 'user'
-      }).when('/:user/:repo', {
+      })
+      .when('/:user/settings', {
+        templateUrl: 'views/usersettings.html',
+        controller: 'UsersettingsCtrl',
+        controllerAs: 'userSettings'
+      })
+      .when('/:user/:repo', {
         templateUrl: 'views/train.html',
         controller: 'TrainCtrl',
         controllerAs: 'train'
+      })
+      .when('/:user/:repo/settings', {
+        templateUrl: 'views/reposettings.html',
+        controller: 'ReposettingsCtrl',
+        controllerAs: 'repoSettings'
       })
       .otherwise({
         templateUrl: 'views/status404.html',
@@ -63,11 +75,21 @@ angular
     localStorageServiceProvider
       .setPrefix('namsaiEditorApp')
       .setNotify(true, true)
-  }).run(function($rootScope,$location){
+  }).run(function($rootScope,$location,$mdDialog){
     $rootScope.gotoPath = function(pathLocation){
       $location.path(pathLocation);
     }
     $rootScope.gotoBack = function(){
       window.history.back();
+    }
+    $rootScope.DialogConnectFailed = function(){
+      var cfd = $mdDialog.alert()
+          .title('Connect failed!')
+          .textContent('please check your internet connectivity and refresh this page.')
+          .ariaLabel('Connect failed')
+          .ok('Yes');
+      $mdDialog.show(cfd).then(function() {
+      }, function() {
+      });
     }
   });

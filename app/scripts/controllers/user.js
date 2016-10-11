@@ -39,6 +39,8 @@ angular.module('namsaiEditorApp')
       },function(response) {
         if(response.status == 404){
           $scope.notFoundUser = true;
+        }else if(response.status == -1){
+          $rootScope.DialogConnectFailed();
         }
       });
     };

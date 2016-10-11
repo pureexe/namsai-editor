@@ -8,14 +8,14 @@
  * Controller of the namsaiEditorApp
  */
 angular.module('namsaiEditorApp')
-  .controller('LoginCtrl', function ($scope,$http,API,$location,localStorageService) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('LoginCtrl', function ($scope,$http,API,$location,localStorageService,$rootScope) {
+    $rootScope.title = "LogIn - NAMSAI";
+    var action = $location.search().action;
+    var user = $location.search().user;
+    if(user){
+      $scope.clientUsername = user;
+    }
     $scope.doLogin = function(){
-      console.log("DO LOGIN");
       $http({
         url: API+'/v1/auth',
         method: "POST",
@@ -25,7 +25,12 @@ angular.module('namsaiEditorApp')
         localStorageService.set("access_token",response.data.access_token);
         localStorageService.set("username",$scope.clientUsername);
         $scope.loginForm.clientPassword.$error.wrongPassword = undefined;
-        $location.path('/'+$scope.clientUsername);
+        if(user){
+          $location.search({});
+          $location.path('/'+$scope.clientUsername+'/settings');
+        }else{
+          $location.path('/'+$scope.clientUsername);
+        }
       },function(response) {
         $scope.loginForm.clientPassword.$error.wrongPassword = true;
       });

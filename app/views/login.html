@@ -2,6 +2,7 @@
 <div class="full-height" layout="row" layout-align="center center">
   <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
     <div class="card-content">
+      {{message}}
       <form ng-submit="doLogin()" name="loginForm">
       <md-input-container class="md-block">
           <label>Username</label>
@@ -18,7 +19,7 @@
           </md-input-container>
           <div style="width:100%;" layout="row" layout-align="end center">
             <md-button ng-click="gotoPath('/signup')">Sign up</md-button>
-            <md-button class="md-raised md-primary" ng-click="submitLogin()" type="submit">Login</md-button>
+            <md-button class="md-raised md-primary" type="submit">Login</md-button>
           </div>
         </form>
     </div>

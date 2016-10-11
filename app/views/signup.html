@@ -2,10 +2,10 @@
 <div class="full-height" layout="row" layout-align="center center">
   <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
     <div class="card-content">
-      <form name="signupForm" ng-submit="doSignup">
+      <form name="signupForm" ng-submit="doSignup()">
         <md-input-container class="md-block">
           <label>Username</label>
-          <input required type="text" name="clientUsername" ng-model="project.clientUsername" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"/>
+          <input required type="text" name="clientUsername" ng-model="clientUsername" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/" ng-change="usernameChange()"/>
           <div ng-messages="signupForm.clientUsername.$error" role="alert" md-auto-hide="false">
             <div ng-message-exp="['required']">
               Username is required!
@@ -13,12 +13,19 @@
             <div ng-message-exp="['pattern']">
               Username must english and number only!
             </div>
+            <div ng-message-exp="['alreadyExist']">
+              Username is already exist!
+            </div>
+            <div ng-message-exp="['isReserved']">
+              Username is reserved for system!
+            </div>
           </div>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Email</label>
-          <input required type="email" name="clientEmail" ng-model="project.clientEmail"
-                 minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+          <input required type="email" name="clientEmail" ng-model="clientEmail"
+                 minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/"
+                 ng-change="emailChange()"/>
           <div ng-messages="signupForm.clientEmail.$error" role="alert" md-auto-hide="false">
             <div ng-message-exp="['minlength', 'maxlength']">
               Your email must be between 10 and 128 characters
@@ -29,11 +36,14 @@
             <div ng-message-exp="['required']">
               Email is required!
             </div>
+            <div ng-message-exp="['alreadyExist']">
+              Email is already exist!
+            </div>
           </div>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Password</label>
-          <input required type="password" name="clientPassword" ng-model="project.clientPassword"
+          <input required type="password" name="clientPassword" ng-model="clientPassword"
                  minlength="8" maxlength="64" />
           <div ng-messages="signupForm.clientPassword.$error" role="alert" md-auto-hide="false">
             <div ng-message-exp="['minlength']">
@@ -49,7 +59,7 @@
         </md-input-container>
         <md-input-container class="md-block">
           <label>Retype Password</label>
-          <input required type="password" name="clientRePassword" ng-model="project.clientRePassword"
+          <input required type="password" name="clientRePassword" ng-model="clientRePassword"
                  ng-pattern="{{project.clientPassword}}"  />
           <div ng-messages="signupForm.clientRePassword.$error" role="alert" md-auto-hide="false">
             <div ng-message-exp="['pattern']">
@@ -61,7 +71,7 @@
           </div>
         </md-input-container>
         <div style="width:100%;" layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary" type="submit">Sign up</md-button>
+          <md-button class="md-raised md-primary" ng-click="submitSignup()" type="submit">Sign up</md-button>
         </div>
       </form>
     </div>

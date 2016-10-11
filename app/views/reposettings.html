@@ -1,0 +1,8 @@
+
+<div ng-if="!notFoundUser">
+  <div ng-include="'views/header.html'" ></div>
+  <p>This is the repoSettings view.</p>
+</div>
+<div ng-if="notFoundUser">
+  <div ng-include="'views/status404.html'" ></div>
+</div>
