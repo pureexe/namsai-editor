@@ -12,7 +12,7 @@ angular.module('namsaiEditorApp')
     $scope.appName = $routeParams.repo;
     $scope.appPath = $routeParams.user+'/'+$routeParams.repo;
     $rootScope.title = $scope.appPath;
-    var lastNode,lastParent,lastGrandPa,lastMustDisplay;
+    var lastNode,lastParent,lastGrandPa,lastMustDisplay,prevMustDisplay; //TODO: Need to find way fix must display
     var currentTopicPosition;
     var currentStoryId;
     /*
@@ -245,6 +245,7 @@ angular.module('namsaiEditorApp')
       lastNode = undefined;
       lastParent = undefined;
       lastMustDisplay = undefined;
+      prevMustDisplay = undefined;
       currentStoryId = storyId;
       setTopicCurrentPosition(storyId);
       getStory(storyId);
@@ -272,11 +273,11 @@ angular.module('namsaiEditorApp')
       lastGrandPa = lastParent;
       lastNode = currentNode;
       lastParent = parentNode;
+      prevMustDisplay = lastMustDisplay;
       lastMustDisplay = mustDisplay;
     }
     $scope.addNodePattern = function(){
       if(!lastNode){
-        console.log($scope.nodeList);
         $scope.nodeList.push({
             "id":0,
             "type":"pattern",
@@ -286,7 +287,6 @@ angular.module('namsaiEditorApp')
       }else{
         if(lastNode.type == 'pattern'){
           if(!lastParent){
-            console.log($scope.nodeList);
             $scope.nodeList.push({
                 "id":0,
                 "type":"pattern",
@@ -294,7 +294,6 @@ angular.module('namsaiEditorApp')
                 "next":[]
             });
           }else{
-            console.log(lastNode);
             lastParent.next.push({
                 "id":0,
                 "type":"pattern",
@@ -310,7 +309,6 @@ angular.module('namsaiEditorApp')
             }
           }
         }else{
-          console.log(lastNode);
           lastNode.next.push({
               "id":0,
               "type":"pattern",
@@ -367,12 +365,45 @@ angular.module('namsaiEditorApp')
   $scope.topicDeleteNode = function(id,parentNode){
     deleteNode(id,parentNode);
   }
+  //Get lastNode lastParent and lastGrandPa after delete
+  var upper3Route = function(nodeId,router,path){
+    if(!path){
+        return upper3Route(nodeId,{lastGrandPa:undefined,lastParent:undefined,lastNode:undefined},$scope.nodeList);
+    }else{
+      var c = router;
+      c.lastGrandPa = c.lastParent;
+      c.lastParent = c.lastNode;
+      for(var i=0;i<path.length;i++){
+        c.lastNode = path[i];
+        if(path[i].id == nodeId){
+          return c;
+        }else{
+          var out = upper3Route(nodeId,router,path[i].next);
+          if(out){
+            return out;
+          }
+        }
+      }
+    }
+  }
   var deleteNode = function(nodeId,parentNode){
     //remove from ui
     if(parentNode){
       for(var i=0;i<parentNode.next.length;i++){
         if(parentNode.next[i].id == nodeId){
-          var out = parentNode.next.splice(i, 1);
+          var nodeData = upper3Route(parentNode.id);
+          parentNode.next.splice(i, 1);
+          if(i==0){
+            lastMustDisplay[0] = parentNode.next.length-1;
+          }else{
+            lastMustDisplay[0] = i-1;
+          }
+          if(parentNode.next.length == 0){
+            lastMustDisplay = prevMustDisplay;
+            lastNode = nodeData.lastNode;
+            lastParent = nodeData.lastParent;
+            lastGrandPa = nodeData.lastGrandPa;
+          }
           break;
         }
       }
@@ -380,6 +411,11 @@ angular.module('namsaiEditorApp')
       for(var i=0;i<$scope.nodeList.length;i++){
         if($scope.nodeList[i].id == nodeId){
           $scope.nodeList.splice(i,1);
+          if(i==0){
+            lastMustDisplay[0] = $scope.nodeList.length-1;
+          }else{
+            lastMustDisplay[0] = i-1;
+          }
           break;
         }
       }
