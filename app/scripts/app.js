@@ -62,6 +62,21 @@ angular
         controller: 'ReposettingsCtrl',
         controllerAs: 'repoSettings'
       })
+      .when('/repoMessage', {
+        templateUrl: 'views/repomessage.html',
+        controller: 'RepomessageCtrl',
+        controllerAs: 'repoMessage'
+      })
+      .when('/repoDashboard', {
+        templateUrl: 'views/repodashboard.html',
+        controller: 'RepodashboardCtrl',
+        controllerAs: 'repoDashboard'
+      })
+      .when('/repoHistory', {
+        templateUrl: 'views/repohistory.html',
+        controller: 'RepohistoryCtrl',
+        controllerAs: 'repoHistory'
+      })
       .otherwise({
         templateUrl: 'views/status404.html',
         controller: 'Status404Ctrl',

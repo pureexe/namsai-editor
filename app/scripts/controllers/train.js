@@ -241,6 +241,10 @@ angular.module('namsaiEditorApp')
       }
     }
     $scope.chooseTopic = function(storyId){
+      lastGrandPa = undefined;
+      lastNode = undefined;
+      lastParent = undefined;
+      lastMustDisplay = undefined;
       currentStoryId = storyId;
       setTopicCurrentPosition(storyId);
       getStory(storyId);
@@ -272,6 +276,7 @@ angular.module('namsaiEditorApp')
     }
     $scope.addNodePattern = function(){
       if(!lastNode){
+        console.log($scope.nodeList);
         $scope.nodeList.push({
             "id":0,
             "type":"pattern",
@@ -281,6 +286,7 @@ angular.module('namsaiEditorApp')
       }else{
         if(lastNode.type == 'pattern'){
           if(!lastParent){
+            console.log($scope.nodeList);
             $scope.nodeList.push({
                 "id":0,
                 "type":"pattern",
@@ -288,6 +294,7 @@ angular.module('namsaiEditorApp')
                 "next":[]
             });
           }else{
+            console.log(lastNode);
             lastParent.next.push({
                 "id":0,
                 "type":"pattern",
@@ -300,10 +307,10 @@ angular.module('namsaiEditorApp')
               }else{
                 lastMustDisplay[0] = $scope.nodeList.length -1;
               }
-              console.log(lastMustDisplay[0]);
             }
           }
         }else{
+          console.log(lastNode);
           lastNode.next.push({
               "id":0,
               "type":"pattern",
@@ -339,10 +346,8 @@ angular.module('namsaiEditorApp')
             }else{
               lastMustDisplay[0] = $scope.nodeList.length -1;
             }
-            console.log(lastMustDisplay[0]);
           }
         }else{
-          console.log(lastNode);
           lastNode.next.push({
               "id":0,
               "type":"response",
@@ -367,7 +372,7 @@ angular.module('namsaiEditorApp')
     if(parentNode){
       for(var i=0;i<parentNode.next.length;i++){
         if(parentNode.next[i].id == nodeId){
-          parentNode.next.splice(i, 1);
+          var out = parentNode.next.splice(i, 1);
           break;
         }
       }
