@@ -12,7 +12,8 @@ angular.module('namsaiEditorApp')
     $scope.appName = $routeParams.repo;
     $scope.appPath = $routeParams.user+'/'+$routeParams.repo;
     $rootScope.title = $scope.appPath;
-    var lastNode,lastParent,lastGrandPa,lastMustDisplay,prevMustDisplay; //TODO: Need to find way fix must display
+    var lastNode,lastParent,lastGrandPa,lastMustDisplay; //TODO: Need to find way fix must display
+    var stackDisplay = {"depth":0};
     var currentTopicPosition;
     var currentStoryId;
     /*
@@ -244,8 +245,7 @@ angular.module('namsaiEditorApp')
       lastGrandPa = undefined;
       lastNode = undefined;
       lastParent = undefined;
-      lastMustDisplay = undefined;
-      prevMustDisplay = undefined;
+      stackDisplay = {"depth":0};
       currentStoryId = storyId;
       setTopicCurrentPosition(storyId);
       getStory(storyId);
@@ -269,12 +269,12 @@ angular.module('namsaiEditorApp')
     $scope.topicAdd = function(){
       addStory();
     }
-    $scope.setLastNode = function(currentNode,parentNode,mustDisplay){
+    $scope.setLastNode = function(currentNode,parentNode,mustDisplay,depth){
       lastGrandPa = lastParent;
       lastNode = currentNode;
       lastParent = parentNode;
-      prevMustDisplay = lastMustDisplay;
-      lastMustDisplay = mustDisplay;
+      stackDisplay.depth = depth;
+      stackDisplay[depth] = mustDisplay;
     }
     $scope.addNodePattern = function(){
       if(!lastNode){
@@ -300,11 +300,11 @@ angular.module('namsaiEditorApp')
                 "value":"",
                 "next":[]
             });
-            if(lastMustDisplay){
+            if(stackDisplay.depth>0){
               if(lastParent){
-                lastMustDisplay[0] = lastParent.next.length -1;
+                stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
               }else{
-                lastMustDisplay[0] = $scope.nodeList.length -1;
+                stackDisplay[0][0] = $scope.nodeList.length -1;
               }
             }
           }
@@ -338,11 +338,11 @@ angular.module('namsaiEditorApp')
               "value":"",
               "next":[]
           });
-          if(lastMustDisplay){
+          if(stackDisplay[stackDisplay.depth]>0){
             if(lastParent){
-              lastMustDisplay[0] = lastParent.next.length -1;
+              stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
             }else{
-              lastMustDisplay[0] = $scope.nodeList.length -1;
+              stackDisplay[0][0] = $scope.nodeList.length -1;
             }
           }
         }else{
@@ -368,9 +368,10 @@ angular.module('namsaiEditorApp')
   //Get lastNode lastParent and lastGrandPa after delete
   var upper3Route = function(nodeId,router,path){
     if(!path){
-        return upper3Route(nodeId,{lastGrandPa:undefined,lastParent:undefined,lastNode:undefined},$scope.nodeList);
+        return upper3Route(nodeId,{lastGrandPa:undefined,lastParent:undefined,lastNode:undefined,depth:-1},$scope.nodeList);
     }else{
       var c = router;
+      c.depth++;
       c.lastGrandPa = c.lastParent;
       c.lastParent = c.lastNode;
       for(var i=0;i<path.length;i++){
@@ -393,16 +394,16 @@ angular.module('namsaiEditorApp')
         if(parentNode.next[i].id == nodeId){
           var nodeData = upper3Route(parentNode.id);
           parentNode.next.splice(i, 1);
-          if(i==0){
-            lastMustDisplay[0] = parentNode.next.length-1;
-          }else{
-            lastMustDisplay[0] = i-1;
-          }
           if(parentNode.next.length == 0){
-            lastMustDisplay = prevMustDisplay;
             lastNode = nodeData.lastNode;
             lastParent = nodeData.lastParent;
             lastGrandPa = nodeData.lastGrandPa;
+          }else{
+            if(i==0){
+              stackDisplay[nodeData.depth+1][0] = 0;
+            }else{
+              stackDisplay[nodeData.depth+1][0] = nodeData.lastNode.next.length-1;
+            }
           }
           break;
         }
@@ -412,9 +413,9 @@ angular.module('namsaiEditorApp')
         if($scope.nodeList[i].id == nodeId){
           $scope.nodeList.splice(i,1);
           if(i==0){
-            lastMustDisplay[0] = $scope.nodeList.length-1;
+            stackDisplay[stackDisplay.depth][0] = $scope.nodeList.length-1;
           }else{
-            lastMustDisplay[0] = i-1;
+            stackDisplay[stackDisplay.depth][0] = i-1;
           }
           break;
         }
