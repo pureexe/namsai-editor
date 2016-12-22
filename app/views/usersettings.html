@@ -1,7 +1,33 @@
 
 <div ng-if="!notFoundUser">
   <div ng-include="'views/header.html'" ></div>
-  <p>This is the userSettings view.</p>
+  <div class="full-height" layout="row" layout-align="center center">
+    <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
+      <div class="card-content">
+        <h1>User Settings</h1>
+        <form ng-submit="doLogin()" name="loginForm">
+          <md-input-container class="md-block">
+            <label>Name</label>
+            <input required type="text"  />
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Bio</label>
+            <input required type="text"  />
+          </md-input-container>
+          <h2>Password Change</h2>
+          <md-input-container class="md-block">
+            <label>Password</label>
+            <input required type="text"  />
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Retype Password</label>
+            <input required type="text"  />
+          </md-input-container>
+
+      </form>
+      </div>
+    </md-whiteframe>
+  </div>
 </div>
 <div ng-if="notFoundUser">
   <div ng-include="'views/status404.html'" ></div>

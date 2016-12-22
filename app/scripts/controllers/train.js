@@ -356,6 +356,43 @@ angular.module('namsaiEditorApp')
         addNode('response');
       }
   }
+  $scope.addNodeWebhook = function(){
+    if(!lastNode){
+      $mdDialog.show(
+       $mdDialog.alert()
+         .parent(angular.element(document.querySelector('#popupContainer')))
+         .clickOutsideToClose(true)
+         .title('Pattern node is required!')
+         .textContent('You must declare pattern node in begin of the topic')
+         .ariaLabel('pattern node is required!')
+         .ok('OK')
+      );
+    }else{
+      if(lastNode.type == 'webhook'){
+        lastParent.next.push({
+            "id":0,
+            "type":"response",
+            "value":"",
+            "next":[]
+        });
+        if(stackDisplay[stackDisplay.depth]>0){
+          if(lastParent){
+            stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
+          }else{
+            stackDisplay[0][0] = $scope.nodeList.length -1;
+          }
+        }
+      }else{
+        lastNode.next.push({
+            "id":0,
+            "type":"webhook",
+            "value":"",
+            "next":[]
+        });
+      }
+      addNode('webhook');
+    }
+}
   $scope.cs = function(a){
     console.log(a);
   }
