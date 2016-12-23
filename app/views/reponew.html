@@ -1,0 +1,32 @@
+<div ng-include="'views/header.html'" ></div>
+<div class="full-height" layout="row" layout-align="center center">
+  <md-whiteframe class="card md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout="column" layout-align="center center">
+    <div class="card-content">
+      <h1>New apps</h1>
+      <form ng-submit="doNewRepo()" name="repoForm">
+        <md-input-container class="md-block">
+          <label>Name</label>
+          <input required type="text" name="repoName" ng-model="repoName" ng-change="repoNameChange()" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"/>
+          <div ng-messages="repoForm.repoName.$error" role="alert" md-auto-hide="false">
+            <div ng-message-exp="['pattern']">
+              Name is invalid!
+            </div>
+            <div ng-message-exp="['required']">
+              Name is required!
+            </div>
+            <div ng-message-exp="['alreadyExist']">
+              Please use other name!
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <input type="text" name="repoDescription" ng-model="repoDescription"  />
+        </md-input-container>
+        <div style="width:100%;" layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary" type="submit">Create</md-button>
+        </div>
+    </form>
+    </div>
+  </md-whiteframe>
+</div>

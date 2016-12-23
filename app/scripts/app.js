@@ -47,6 +47,11 @@ angular
         controller: 'UserCtrl',
         controllerAs: 'user'
       })
+      .when('/apps/new', {
+        templateUrl: 'views/reponew.html',
+        controller: 'ReponewCtrl',
+        controllerAs: 'repoNew'
+      })
       .when('/:user/settings', {
         templateUrl: 'views/usersettings.html',
         controller: 'UsersettingsCtrl',

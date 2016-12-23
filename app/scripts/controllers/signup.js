@@ -14,7 +14,7 @@ angular.module('namsaiEditorApp')
       var username = $scope.clientUsername;
       var email = $scope.clientEmail;
       var password = $scope.clientPassword;
-      var url = API+'/v1/users/';
+      var url = API+'/v1/users';
       $http({
         url: url,
         method: "POST",

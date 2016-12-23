@@ -19,7 +19,7 @@ angular.module('namsaiEditorApp')
       $http({
         url: API+'/v1/auth',
         method: "POST",
-        data: "username="+$scope.clientUsername+"&password="+$scope.clientPassword,
+        data: "user="+$scope.clientUsername+"&password="+$scope.clientPassword,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response) {
         localStorageService.set("access_token",response.data.access_token);
