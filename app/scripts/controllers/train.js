@@ -16,11 +16,11 @@ angular.module('namsaiEditorApp')
     var stackDisplay = {"depth":0};
     var currentTopicPosition;
     var currentStoryId;
-    /*
-    getStoryList
-    */
+    /**
+    * getStoryList run on initial for get storylist in leftbar
+    **/
     var getStoryList = function(){
-      var getStoryURL = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories';
+      var getStoryURL = API+'/v1/repos/'+$routeParams.repo+'/stories';
       var token = "";
       if(token = localStorageService.get("access_token")){
         getStoryURL+="?access_token="+token;
@@ -39,11 +39,11 @@ angular.module('namsaiEditorApp')
         }
       });
     }
-    /*
-    getStory
-    */
+    /**
+    * getStory That click on left panel
+    **/
     var getStory = function(storyId){
-      var getStoryURL = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories/'+storyId;
+      var getStoryURL = API+'/v1/repos/'+$routeParams.repo+'/stories/'+storyId;
       var token = "";
       if(token = localStorageService.get("access_token")){
         getStoryURL+="?access_token="+token;
@@ -53,6 +53,7 @@ angular.module('namsaiEditorApp')
         method: "GET",
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response) {
+
         if(response.data.id){
           $scope.topic = response.data;
           if(currentTopicPosition !== 'undefined' && currentTopicPosition != -1){
@@ -78,9 +79,9 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    /*
-    deleteStory
-    */
+    /**
+    *deleteStory
+    **/
     var deleteStory = function(storyId){
       //Remove story from UI
       $scope.stories.splice(currentTopicPosition,1);
@@ -88,7 +89,7 @@ angular.module('namsaiEditorApp')
       currentStoryId = -1;
       currentTopicPosition = -1;
       //Remove story from Backend
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories/'+storyId;
+      var url = API+'/v1/repos/'+$routeParams.repo+'/stories/'+storyId;
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -105,7 +106,7 @@ angular.module('namsaiEditorApp')
     addStory
     */
     var addStory = function(){
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories';
+      var url = API+'/v1/repos/'+$routeParams.repo+'/stories';
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -122,11 +123,11 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    /*
-    setStoryName
-    */
+    /**
+    *setStoryName
+    **/
     var setStoryName = function(storyId,storyName){
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/stories/'+storyId;
+      var url = API+'/v1/repos/'+$routeParams.repo+'/stories/'+storyId;
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -141,11 +142,11 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    /*
-    getRepoURL
-    */
+    /**
+    *getRepoURL: use to check is this repo exist or 404 ?
+    **/
     var getRepo = function(){
-      var getRepoURL = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo;
+      var getRepoURL = API+'/v1/repos/'+$routeParams.repo;
       var token = "";
       if(token = localStorageService.get("access_token")){
         getRepoURL+="?access_token="+token;
@@ -163,10 +164,9 @@ angular.module('namsaiEditorApp')
     }
     /*
     addNode
-    */
     var addNode = function(type,value){
       value = (value)?value:"";
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes';
+      var url = API+'/v1/repos/'+$routeParams.repo+'/nodes';
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -192,11 +192,10 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    /*
-    addEdge
-    */
+
+    //addEdge
     var addEdge = function(currentId,nextId){
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/edges';
+      var url = API+'/v1/repos/'+$routeParams.repo+'/edges';
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -210,11 +209,9 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    /*
-    updateNode
-    */
+    //updateNode
     var updateNode = function(nodeId,value){
-      var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes/'+nodeId;
+      var url = API+'/v1/repos/'+$routeParams.repo+'/nodes/'+nodeId;
       var token = localStorageService.get("access_token");
       $http({
         url: url,
@@ -229,11 +226,7 @@ angular.module('namsaiEditorApp')
         console.error(response);
       });
     }
-    var initial = function(){
-      getRepo();
-      getStoryList();
-    }
-    initial();
+    */
     var setTopicCurrentPosition = function(storyId){
       for(var i=0;i<$scope.stories.length;i++){
         if($scope.stories[i].id == storyId){
@@ -269,6 +262,7 @@ angular.module('namsaiEditorApp')
     $scope.topicAdd = function(){
       addStory();
     }
+    /*
     $scope.setLastNode = function(currentNode,parentNode,mustDisplay,depth){
       lastGrandPa = lastParent;
       lastNode = currentNode;
@@ -459,7 +453,7 @@ angular.module('namsaiEditorApp')
       }
     }
     // remove from backend
-    var url = API+'/v1/repos/'+$routeParams.user+'/'+$routeParams.repo+'/nodes/'+nodeId;
+    var url = API+'/v1/repos/'+$routeParams.repo+'/nodes/'+nodeId;
     var token = localStorageService.get("access_token");
     $http({
       url: url,
@@ -470,5 +464,13 @@ angular.module('namsaiEditorApp')
     },function(response) {
       console.error(response.data);
     });
+  }*/
+  var initial = function(){
+    getRepo();
+    getStoryList();
   }
+  /**
+  * run on initial
+  **/
+  initial();
 });

@@ -6,7 +6,7 @@
       <form ng-submit="doNewRepo()" name="repoForm">
         <md-input-container class="md-block">
           <label>Name</label>
-          <input required type="text" name="repoName" ng-model="repoName" ng-change="repoNameChange()" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"/>
+          <input required type="text" name="repoName" ng-model="repoName" ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"/>
           <div ng-messages="repoForm.repoName.$error" role="alert" md-auto-hide="false">
             <div ng-message-exp="['pattern']">
               Name is invalid!

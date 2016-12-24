@@ -10,6 +10,7 @@
 angular.module('namsaiEditorApp')
   .controller('ReponewCtrl', function ($rootScope,$scope,localStorageService,$http,API,$location) {
     $rootScope.title = 'create new app - NAMSAI';
+    var i =0;
     $scope.doNewRepo = function(){
       $http({
           url: API+'/v1/repos',
