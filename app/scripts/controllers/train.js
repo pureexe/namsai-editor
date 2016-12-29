@@ -16,6 +16,12 @@ angular.module('namsaiEditorApp')
     var stackDisplay = {"depth":0};
     var currentTopicPosition;
     var currentStoryId;
+    $scope.debugNode = function(a){
+      console.log($scope.nodeList);
+    }
+    $scope.cs = function(a){
+      console.log(a);
+    }
     /**
     * getStoryList run on initial for get storylist in leftbar
     **/
@@ -53,25 +59,10 @@ angular.module('namsaiEditorApp')
         method: "GET",
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(function(response) {
-
         if(response.data.id){
           $scope.topic = response.data;
           if(currentTopicPosition !== 'undefined' && currentTopicPosition != -1){
             $scope.stories[currentTopicPosition].name = $scope.topic.name;
-          }
-          var addEmptyNext = function(group){
-            group.forEach(function(value,index, array){
-              if(!value.next){
-                array[index].next = [];
-              }else{
-                addEmptyNext(array[index].next);
-              }
-            });
-          }
-          if(response.data.graph){
-            addEmptyNext(response.data.graph);
-          }else{
-            response.data.graph = []
           }
           $scope.nodeList = response.data.graph;
         }
@@ -115,6 +106,7 @@ angular.module('namsaiEditorApp')
         data: "access_token="+token
       }).then(function(response) {
         if(response.data.id){
+          $scope.nodeList = {}
           $scope.stories.unshift(response.data);
           $scope.topic = $scope.stories[0];
           currentTopicPosition = 0;
@@ -162,71 +154,6 @@ angular.module('namsaiEditorApp')
         }
       });
     }
-    /*
-    addNode
-    var addNode = function(type,value){
-      value = (value)?value:"";
-      var url = API+'/v1/repos/'+$routeParams.repo+'/nodes';
-      var token = localStorageService.get("access_token");
-      $http({
-        url: url,
-        method: "POST",
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: "access_token="+token+"&type="+type+"&value="+value+"&story_id="+currentStoryId
-      }).then(function(response) {
-        if(response.data.id){
-          if(!lastParent){
-            $scope.nodeList[$scope.nodeList.length -1].id = response.data.id;
-            addEdge(0,response.data.id);
-          } else {
-            if(lastParent.type == type && lastGrandPa){
-              lastGrandPa.next[lastGrandPa.next.length-1].id = response.data.id;
-              addEdge((lastGrandPa)?lastGrandPa.id:0,response.data.id);
-            }else{
-              lastParent.next[lastParent.next.length-1].id = response.data.id;
-              addEdge(lastParent.id,response.data.id);
-            }
-          }
-        }
-      },function(response) {
-        console.error(response);
-      });
-    }
-
-    //addEdge
-    var addEdge = function(currentId,nextId){
-      var url = API+'/v1/repos/'+$routeParams.repo+'/edges';
-      var token = localStorageService.get("access_token");
-      $http({
-        url: url,
-        method: "POST",
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: "access_token="+token+"&current="+currentId+"&next="+nextId
-      }).then(function(response) {
-        if(response.data.id){
-        }
-      },function(response) {
-        console.error(response);
-      });
-    }
-    //updateNode
-    var updateNode = function(nodeId,value){
-      var url = API+'/v1/repos/'+$routeParams.repo+'/nodes/'+nodeId;
-      var token = localStorageService.get("access_token");
-      $http({
-        url: url,
-        method: "POST",
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: "access_token="+token+"&value="+value
-      }).then(function(response) {
-        if(response.data.id){
-
-        }
-      },function(response) {
-        console.error(response);
-      });
-    }
-    */
     var setTopicCurrentPosition = function(storyId){
       for(var i=0;i<$scope.stories.length;i++){
         if($scope.stories[i].id == storyId){
@@ -262,197 +189,73 @@ angular.module('namsaiEditorApp')
     $scope.topicAdd = function(){
       addStory();
     }
-    /*
-    $scope.setLastNode = function(currentNode,parentNode,mustDisplay,depth){
-      lastGrandPa = lastParent;
-      lastNode = currentNode;
-      lastParent = parentNode;
-      stackDisplay.depth = depth;
-      stackDisplay[depth] = mustDisplay;
-    }
-    $scope.addNodePattern = function(){
-      if(!lastNode){
-        $scope.nodeList.push({
-            "id":0,
-            "type":"pattern",
-            "value":"",
-            "next":[]
+  /**
+  addNode: RestAPI to add node in backend
+  **/
+  var addNode = function(parentId,type,callback){
+    var token = localStorageService.get("access_token");
+    $http({
+      url: API+'/v1/repos/'+$routeParams.repo+'/nodes',
+      method: "POST",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: 'type='+type+'&story_id='+$scope.topic.id+'&access_token='+token
+    }).then(function(response) {
+      if(response.data.id){
+        var nodeId = response.data.id;
+        callback(nodeId);
+        addEdge(parentId,nodeId,function(edgeId){
         });
       }else{
-        if(lastNode.type == 'pattern'){
-          if(!lastParent){
-            $scope.nodeList.push({
-                "id":0,
-                "type":"pattern",
-                "value":"",
-                "next":[]
-            });
-          }else{
-            lastParent.next.push({
-                "id":0,
-                "type":"pattern",
-                "value":"",
-                "next":[]
-            });
-            if(stackDisplay.depth>0){
-              if(lastParent){
-                stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
-              }else{
-                stackDisplay[0][0] = $scope.nodeList.length -1;
-              }
-            }
-          }
-        }else{
-          lastNode.next.push({
-              "id":0,
-              "type":"pattern",
-              "value":"",
-              "next":[]
-          });
-        }
+        console.error('addNode: no id receive');
       }
-      addNode('pattern');
-    }
-    $scope.addNodeResponse = function(){
-      if(!lastNode){
-        $mdDialog.show(
-         $mdDialog.alert()
-           .parent(angular.element(document.querySelector('#popupContainer')))
-           .clickOutsideToClose(true)
-           .title('Pattern node is required!')
-           .textContent('You must declare pattern node in begin of the topic')
-           .ariaLabel('pattern node is required!')
-           .ok('OK')
-        );
+    },function(response) {
+      console.error(response);
+    });
+  }
+  /**
+  addEdge: RestAPI to add edge in backend
+  **/
+  var addEdge = function(from,to,callback){
+    var token = localStorageService.get("access_token");
+    $http({
+      url:  API+'/v1/repos/'+$routeParams.repo+'/edges',
+      method: "POST",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "current="+from+"&next="+to+"&access_token="+token
+    }).then(function(response) {
+      console.log(response.data)
+      if(response.data.id){
+        callback(response.data.id)
       }else{
-        if(lastNode.type == 'response'){
-          lastParent.next.push({
-              "id":0,
-              "type":"response",
-              "value":"",
-              "next":[]
-          });
-          if(stackDisplay[stackDisplay.depth]>0){
-            if(lastParent){
-              stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
-            }else{
-              stackDisplay[0][0] = $scope.nodeList.length -1;
-            }
-          }
-        }else{
-          lastNode.next.push({
-              "id":0,
-              "type":"response",
-              "value":"",
-              "next":[]
-          });
-        }
-        addNode('response');
+        console.error('addNode: no id receive');
       }
+    },function(response) {
+      console.error(response);
+    });
   }
-  $scope.addNodeWebhook = function(){
-    if(!lastNode){
-      $mdDialog.show(
-       $mdDialog.alert()
-         .parent(angular.element(document.querySelector('#popupContainer')))
-         .clickOutsideToClose(true)
-         .title('Pattern node is required!')
-         .textContent('You must declare pattern node in begin of the topic')
-         .ariaLabel('pattern node is required!')
-         .ok('OK')
-      );
-    }else{
-      if(lastNode.type == 'webhook'){
-        lastParent.next.push({
-            "id":0,
-            "type":"response",
-            "value":"",
-            "next":[]
-        });
-        if(stackDisplay[stackDisplay.depth]>0){
-          if(lastParent){
-            stackDisplay[stackDisplay.depth][0] = lastParent.next.length -1;
-          }else{
-            stackDisplay[0][0] = $scope.nodeList.length -1;
-          }
-        }
-      }else{
-        lastNode.next.push({
-            "id":0,
-            "type":"webhook",
-            "value":"",
-            "next":[]
-        });
+  /**
+  * updateNode: RestAPI to Update backend
+  **/
+  var updateNode = function(nodeId,value){
+    var url = API+'/v1/repos/'+$routeParams.repo+'/nodes/'+nodeId;
+    var token = localStorageService.get("access_token");
+    $http({
+      url: url,
+      method: "POST",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "access_token="+token+"&value="+value
+    }).then(function(response) {
+      if(response.data.id){
+
       }
-      addNode('webhook');
-    }
-}
-  $scope.cs = function(a){
-    console.log(a);
+    },function(response) {
+      console.error(response);
+    });
   }
-  $scope.topicUpdateNode = function(nodeId,value){
-    updateNode(nodeId,value);
-  }
-  $scope.topicDeleteNode = function(id,parentNode){
-    deleteNode(id,parentNode);
-  }
-  //Get lastNode lastParent and lastGrandPa after delete
-  var upper3Route = function(nodeId,router,path){
-    if(!path){
-        return upper3Route(nodeId,{lastGrandPa:undefined,lastParent:undefined,lastNode:undefined,depth:-1},$scope.nodeList);
-    }else{
-      var c = router;
-      c.depth++;
-      c.lastGrandPa = c.lastParent;
-      c.lastParent = c.lastNode;
-      for(var i=0;i<path.length;i++){
-        c.lastNode = path[i];
-        if(path[i].id == nodeId){
-          return c;
-        }else{
-          var out = upper3Route(nodeId,router,path[i].next);
-          if(out){
-            return out;
-          }
-        }
-      }
-    }
-  }
-  var deleteNode = function(nodeId,parentNode){
-    //remove from ui
-    if(parentNode){
-      for(var i=0;i<parentNode.next.length;i++){
-        if(parentNode.next[i].id == nodeId){
-          var nodeData = upper3Route(parentNode.id);
-          parentNode.next.splice(i, 1);
-          if(parentNode.next.length == 0){
-            lastNode = nodeData.lastNode;
-            lastParent = nodeData.lastParent;
-            lastGrandPa = nodeData.lastGrandPa;
-          }else{
-            if(i==0){
-              stackDisplay[nodeData.depth+1][0] = 0;
-            }else{
-              stackDisplay[nodeData.depth+1][0] = nodeData.lastNode.next.length-1;
-            }
-          }
-          break;
-        }
-      }
-    }else{
-      for(var i=0;i<$scope.nodeList.length;i++){
-        if($scope.nodeList[i].id == nodeId){
-          $scope.nodeList.splice(i,1);
-          if(i==0){
-            stackDisplay[stackDisplay.depth][0] = $scope.nodeList.length-1;
-          }else{
-            stackDisplay[stackDisplay.depth][0] = i-1;
-          }
-          break;
-        }
-      }
-    }
-    // remove from backend
+  /**
+  * deleteNode: RestAPI to delete backend
+  **/
+  var deleteNode = function(nodeId){
     var url = API+'/v1/repos/'+$routeParams.repo+'/nodes/'+nodeId;
     var token = localStorageService.get("access_token");
     $http({
@@ -461,10 +264,85 @@ angular.module('namsaiEditorApp')
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       data: "access_token="+token
     }).then(function(response) {
+      console.log(response.data);
+      if(response.data.id){
+
+      }
     },function(response) {
-      console.error(response.data);
+      console.error(response);
     });
-  }*/
+  }
+  /**
+  * findLastNode
+  * @internal
+  **/
+  var findLastNode = function(){
+    var root = $scope.nodeList;
+    var parent = undefined;
+    var head = root;
+    while(head.nodes && head.nodes.length != 0 ){
+      parent = head;
+      var view = (head.view)?head.view:0;
+      head = head.nodes[view];
+    }
+    head.parent = parent;
+    return head;
+  }
+  /**
+  * TopicAddNode
+  **/
+  $scope.topicAddNode = function(type){
+    var parentId = 0,fallbackObj = undefined;
+    lastNode = findLastNode();
+    if(!lastNode.data || lastNode.data.type != type){
+      lastNode.nodes = [
+        {
+          "data":{
+            "type":type,
+            "value":"",
+          }
+        }
+      ]
+      fallbackObj = lastNode.nodes[0];
+      parentId = (lastNode.data)?lastNode.data.id:0;
+    }else{
+      if(!lastNode.parent.nodes){
+        lastNode.parent.nodes = [];
+      }
+      lastNode.parent.view = lastNode.parent.nodes.length;
+      lastNode.parent.nodes.push({
+        "data":{
+          "type":type,
+          "value":""
+        }
+      });
+      fallbackObj = lastNode.parent.nodes[lastNode.parent.nodes.length -1];
+      parentId = (lastNode.parent.data)?lastNode.parent.data.id:0;
+    }
+    addNode(parentId,type,function(nodeId){
+      fallbackObj.data.id = nodeId;
+    });
+  }
+  /**
+  * topicUpdateNode: on node change callback from ui
+  **/
+  $scope.topicUpdateNode = function(nodeId,nodeValue){
+    updateNode(nodeId,nodeValue)
+  }
+  /**
+  * topicDeleteNode: on node click delete callback from ui
+  **/
+  $scope.topicDeleteNode = function(node,parentNode){
+    var i = 0;
+    for(i=0;i<parentNode.nodes.length;i++){
+      if(parentNode.nodes[i].data.id == node.data.id){
+        deleteNode(node.data.id);
+        parentNode.nodes.splice(i,1);
+        parentNode.view = (i==0)?0:i-1;
+        break;
+      }
+    }
+  }
   var initial = function(){
     getRepo();
     getStoryList();

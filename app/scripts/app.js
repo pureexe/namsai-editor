@@ -15,7 +15,7 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
+//  'ngTouch',
     'ngMaterial',
     'ngMessages',
     'LocalStorageModule',
