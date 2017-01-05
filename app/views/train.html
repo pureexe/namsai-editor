@@ -87,6 +87,31 @@
                           Response
                         </md-button>
                       </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('variable')">
+                          Operation
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('condition')">
+                          Condition
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('webhook')">
+                          Webhook
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('bookmark_entry')">
+                          Bookmark (Entry)
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('bookmark_jump')">
+                          Bookmark (Jump)
+                        </md-button>
+                      </md-menu-item>
                     </md-menu-content>
                 </md-menu>
                   <md-button class="md-icon-button" aria-label="Login" ng-click="topicDelete(topic.id)">

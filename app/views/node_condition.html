@@ -1,0 +1,15 @@
+<div layout="row" layout-align="end center">
+  <md-input-container md-no-float class="md-block">
+   <input type="text" placeholder="Left side" aria-label="">
+  </md-input-container>
+  <md-input-container class="md-block" flex-gt-sm>
+    <md-select ng-model="comparetor">
+      <md-option ng-repeat="state in ['==','!=','>','<','>=','<=',]" value="{{state}}">
+        {{state}}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  <md-input-container md-no-float class="md-block">
+   <input ng-model="node.data.value" type="text" placeholder="Right side" aria-label="">
+  </md-input-container>
+</div>

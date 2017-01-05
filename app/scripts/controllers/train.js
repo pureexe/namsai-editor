@@ -319,6 +319,12 @@ angular.module('namsaiEditorApp')
       fallbackObj = lastNode.parent.nodes[lastNode.parent.nodes.length -1];
       parentId = (lastNode.parent.data)?lastNode.parent.data.id:0;
     }
+    //Need to remove this it just for debug
+    if(type == 'variable')return;
+    if(type == 'condition')return;
+    if(type == 'webhook')return;
+    if(type == 'bookmark_entry')return;
+    if(type == 'bookmark_jump')return;
     addNode(parentId,type,function(nodeId){
       fallbackObj.data.id = nodeId;
     });

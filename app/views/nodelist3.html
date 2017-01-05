@@ -1,10 +1,12 @@
 <div ng-repeat="node in nodeList.nodes" ng-if="$index == nodeList.view || (!nodeList.view &amp;&amp; $index == 0)">
-  <div layout="row" ng-attr-layout-align="{{ (node.data.type!='pattern')?'end center':'start center'}}">
+  <div layout="row" ng-attr-layout-align="{{ (node.data.type!='pattern' && node.data.type!='condition')?'end center':'start center'}}">
     <md-button  class="md-icon-button" aria-label="" ng-click="nodeList.view = (nodeList.view-1<0)?nodeList.nodes.length-1:nodeList.view-1;" ng-if="nodeList.nodes.length > 1" >
       <i class="material-icons">chevron_left</i>
     </md-button>
-    <md-input-container md-no-float class="md-block" aria-label="z">
-     <input ng-model="node.data.value" type="text" placeholder="" ng-change="topicUpdateNode(node.data.id,node.data.value)" aria-label="node value">
+    <div ng-if="node.data.type == 'variable'" ng-include="'views/node_operation.html'"></div>
+    <div ng-if="node.data.type == 'condition'" ng-include="'views/node_condition.html'"></div>
+    <md-input-container md-no-float class="md-block" ng-if="node.data.type == 'pattern' || node.data.type == 'response'" >
+     <input ng-model="node.data.value" type="text" placeholder="" ng-change="topicUpdateNode(node.data.id,node.data.value)" aria-label="node">
     </md-input-container>
     <md-button  class="md-icon-button" aria-label="" ng-click="topicDeleteNode(node,nodeList)" >
       <i class="material-icons">close</i>
