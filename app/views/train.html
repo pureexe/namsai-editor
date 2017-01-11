@@ -1,31 +1,6 @@
 <div ng-if="!notFoundRepo">
   <div ng-include="'views/header.html'" ></div>
-  <div>
-    <md-whiteframe class="md-whiteframe-2dp" layout layout-align="center center">
-      <md-toolbar class="" style="background-color:#fff;color:#616161;">
-          <div class="md-toolbar-tools">
-            <md-button class="md-icon-button" aria-label="Login" ng-click="gotoBack();">
-              <i class="material-icons">arrow_back</i>
-            </md-button>
-            <span flex style="text-align: center">
-              {{appName}}
-            </span>
-            <md-button class="md-icon-button" aria-label="Login" ng-click="gotoPath(appPath+'/message')">
-              <i class="material-icons">message</i>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Login" ng-click="gotoPath(appPath+'/dasboard')">
-              <i class="material-icons">dashboard</i>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Login" ng-click="gotoPath(appPath+'/history')">
-              <i class="material-icons">history</i>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Login" ng-click="gotoPath(appPath+'/settings')">
-              <i class="material-icons">settings</i>
-            </md-button>
-          </div>
-        </md-toolbar>
-    </md-whiteframe>
-  </div>
+  <div ng-include="'views/header-train.html'" ></div>
   <div class="app-container" layout="row">
     <div flex="25" layout="column" style="position:relative;">
       <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:calc(100% - 20px);background-color:#fff;position:relative">

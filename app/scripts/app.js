@@ -67,7 +67,7 @@ angular
         controller: 'ReposettingsCtrl',
         controllerAs: 'repoSettings'
       })
-      .when('/repoMessage', {
+      .when('/:user/:repo/messages', {
         templateUrl: 'views/repomessage.html',
         controller: 'RepomessageCtrl',
         controllerAs: 'repoMessage'

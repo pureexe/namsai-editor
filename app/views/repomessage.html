@@ -1,1 +1,31 @@
-<p>This is the repoMessage view.</p>
+<div ng-if="!notFoundRepo">
+  <div ng-include="'views/header.html'" ></div>
+  <div ng-include="'views/header-train.html'" ></div>
+  <div class="app-container" layout="row">
+    <div flex="25" layout="column" style="position:relative;">
+    </div>
+    <div flex="50" layout="column">
+      <md-whiteframe layout="column" class="md-whiteframe-1dp" style="margin-top:10px;margin-bottom:10px;height:100%;background-color:#fff">
+          <div flex>
+          </div>
+          <md-whiteframe class="md-whiteframe-1dp" layout layout-align="center center">
+            <md-toolbar class="" style="background-color:#fff;color:#616161;">
+                <div class="md-toolbar-tools">
+                  <md-input-container md-no-float class="md-block" flex>
+                    <input ng-model="topic.name" type="text" placeholder="type a messages">
+                  </md-input-container>
+                  <md-button class="md-icon-button" aria-label="Login">
+                    <i class="material-icons">send</i>
+                  </md-button>
+                </div>
+            </md-toolbar>
+          </md-whiteframe>
+      </md-whiteframe>
+    </div>
+    <div flex="25" layout="column">
+    </div>
+  </div>
+</div>
+<div ng-if="notFoundRepo">
+  <div ng-include="'views/status404.html'" ></div>
+</div>
