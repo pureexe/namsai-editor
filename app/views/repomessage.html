@@ -1,4 +1,4 @@
-<div ng-if="!notFoundRepo">
+<div ng-if="!notFoundRepo" ng-controller="RepomessageCtrl">
   <div ng-include="'views/header.html'" ></div>
   <div ng-include="'views/header-train.html'" ></div>
   <div class="app-container" layout="row">
@@ -6,15 +6,20 @@
     </div>
     <div flex="50" layout="column">
       <md-whiteframe layout="column" class="md-whiteframe-1dp" style="margin-top:10px;margin-bottom:10px;height:100%;background-color:#fff">
-          <div flex>
+          <div flex style="overflow-y:auto;">
+            <div ng-repeat="message in messageList" layout="row" ng-attr-layout-align="{{ (message.type=='user')?'end center':((message.type =='time')?'center center':'start center')}}">
+              <div>
+                {{message.value}}
+              </div>
+            </div>
           </div>
           <md-whiteframe class="md-whiteframe-1dp" layout layout-align="center center">
             <md-toolbar class="" style="background-color:#fff;color:#616161;">
                 <div class="md-toolbar-tools">
                   <md-input-container md-no-float class="md-block" flex>
-                    <input ng-model="topic.name" type="text" placeholder="type a messages">
+                    <input ng-model="inputText" type="text" placeholder="type a messages" my-enter="input(inputText)">
                   </md-input-container>
-                  <md-button class="md-icon-button" aria-label="Login">
+                  <md-button class="md-icon-button" aria-label="Login" ng-click="input(inputText)">
                     <i class="material-icons">send</i>
                   </md-button>
                 </div>
