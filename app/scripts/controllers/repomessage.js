@@ -34,6 +34,7 @@ angular.module('namsaiEditorApp')
       });
     }
     var getDateText = function(){
+      var date = new Date();
       var hour = date.getHours();
       var minute = +date.getMinutes();
       hour = (hour<10)?'0'+hour:hour;
@@ -43,7 +44,6 @@ angular.module('namsaiEditorApp')
     }
     $scope.input = function(value){
       if(!lastTimestamp || (new Date() - lastTimestamp)/1000 > 300){
-        var date = new Date();
         $scope.messageList.push({"type":"time","value":getDateText()});
       }
       $scope.messageList.push({"type":"user","value":value});
