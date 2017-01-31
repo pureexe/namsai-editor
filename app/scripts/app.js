@@ -72,12 +72,12 @@ angular
         controller: 'RepomessageCtrl',
         controllerAs: 'repoMessage'
       })
-      .when('/repoDashboard', {
+      .when('/:user/:repo/dashboard', {
         templateUrl: 'views/repodashboard.html',
         controller: 'RepodashboardCtrl',
         controllerAs: 'repoDashboard'
       })
-      .when('/repoHistory', {
+      .when('/:user/:repo/history', {
         templateUrl: 'views/repohistory.html',
         controller: 'RepohistoryCtrl',
         controllerAs: 'repoHistory'
