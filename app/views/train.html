@@ -9,14 +9,14 @@
             <md-toolbar class="" style="background-color:#fff;color:#616161;">
                 <div class="md-toolbar-tools">
                   <md-input-container md-no-float class="md-block" style="width:100%;">
-                    <input ng-model="search" type="text" placeholder="Search">
+                    <input ng-model="storySearchText" type="text" placeholder="Search">
                   </md-input-container>
                 </div>
               </md-toolbar>
           </md-whiteframe>
           <div class="full-without-header">
             <md-list>
-              <div ng-repeat="story in stories">
+              <div ng-repeat="story in stories | filter:storySearchText">
                 <md-list-item  ng-click="chooseTopic(story.id);">
                   <p ng-if="story.name">{{story.name}}</p>
                   <p ng-if="!story.name" style="color:#9f9f9f">Topic</p>
