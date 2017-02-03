@@ -68,13 +68,14 @@
                         </md-button>
                       </md-menu-item>
                       <md-menu-item>
-                        <md-button ng-click="topicAddNode('condition')">
-                          Condition
-                        </md-button>
-                      </md-menu-item>
-                      <md-menu-item>
                         <md-button ng-click="topicAddNode('webhook')">
                           Webhook
+                        </md-button>
+                      </md-menu-item>
+                      <!--
+                      <md-menu-item>
+                        <md-button ng-click="topicAddNode('condition')">
+                          Condition
                         </md-button>
                       </md-menu-item>
                       <md-menu-item>
@@ -86,7 +87,7 @@
                         <md-button ng-click="topicAddNode('bookmark_jump')">
                           Bookmark (Jump)
                         </md-button>
-                      </md-menu-item>
+                      </md-menu-item>-->
                     </md-menu-content>
                 </md-menu>
                   <md-button class="md-icon-button" aria-label="Login" ng-click="topicDelete(topic.id)">
@@ -104,7 +105,14 @@
     </div>
     <div flex="25" layout="column">
       <md-whiteframe class="md-whiteframe-1dp" style="margin:10px;height:100%;background-color:#fff;padding:20px;">
-        Not Avaliable Untill Next patch
+        <div layout="row" ng-repeat="variable in variables" layout-align="end center">
+          <md-input-container md-no-float class="md-block">
+           <input type="text" ng-model="variable.name" placeholder="variable's name" aria-label="">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block">
+           <input type="text" ng-model="variable.value" placeholder="variable's value" aria-label="">
+          </md-input-container>
+        </div>
       </md-whiteframe>
     </div>
   </div>

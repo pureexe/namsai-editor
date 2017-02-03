@@ -352,6 +352,27 @@ angular.module('namsaiEditorApp')
   var initial = function(){
     getRepo();
     getStoryList();
+    getVariableList();
+  }
+  var getVariableList = function(){
+    var getVariableUrl = API+'/v1/repos/'+$routeParams.repo+'/variables';
+    var token = "";
+    if(token = localStorageService.get("access_token")){
+      getVariableUrl+="?access_token="+token;
+    }
+    $http({
+      url: getVariableUrl,
+      method: "GET",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).then(function(response) {
+      if(response.data.variables){
+        $scope.variables = response.data.variables;
+      }
+    },function(response) {
+      if(response.status == 404){
+        $scope.notFoundRepo = true;
+      }
+    });
   }
   /**
   * run on initial
